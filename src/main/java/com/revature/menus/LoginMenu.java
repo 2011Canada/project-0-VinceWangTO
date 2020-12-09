@@ -8,41 +8,40 @@ import com.revature.models.User;
 import com.revature.repositories.MenuDAO;
 import com.revature.services.UserService;
 
-public class RegisterMenu extends Menu {
+public class LoginMenu extends Menu {
 
 	UserService userService;
 
-	public RegisterMenu(MenuDAO menu, List<MenuOption> options) {
+	public LoginMenu(MenuDAO menu, List<MenuOption> options) {
 		super(menu, options);
 		// TODO Auto-generated constructor stub
 	}
 
-	public RegisterMenu(UserService userService) {
+	public LoginMenu(UserService userService) {
 		this.userService = userService;
 	}
 
 	@Override
 	public String display() {
 
-		String display = "\n##########  Register PAGE  ##########\n";
+		String display = "\n##########  Login PAGE  ##########\n";
 		System.out.print(display);
 		// this should be a number, but not necessarily
 		try {
-			System.out.print("Please enter a username:");
+			System.out.print("Please enter your username:");
 			String userName = this.userIn.nextLine();
-			System.out.print("Please enter a password:");
+			System.out.print("Please enter your password:");
 			String password = this.userIn.nextLine();
 
-			User newUser = this.userService.register(userName, password);
-
-			String jsonString = BankLauncher.mapper.writeValueAsString(newUser);
-			System.out.print("\n");
+			User user = this.userService.login(userName, password);
+			if (user == null) {
+				throw new Exception();
+			}
+			String jsonString = BankLauncher.mapper.writeValueAsString(user);
 			return jsonString;
-
 		} catch (Exception e) {
-			System.out.println("Make A valid choice please");
+			System.out.println("\n\nCan not find the user, please re-enter!");
 		}
 		return "";
 	}
-
 }

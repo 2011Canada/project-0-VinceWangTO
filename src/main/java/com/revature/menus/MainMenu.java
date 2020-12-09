@@ -1,9 +1,8 @@
 package com.revature.menus;
 
-import com.revature.models.Displayable;
 import com.revature.repositories.MenuDAO;
 
-public class MainMenu extends Menu implements Displayable {
+public class MainMenu extends Menu {
 
 	public MainMenu(MenuDAO menu) {
 

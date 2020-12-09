@@ -7,8 +7,12 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User login(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		BankLauncher.logger.debug("A user try to login.");
+		// connect to database, if find use return User, else return null
+		User user = new User();
+		user.setUserId(123);
+		user.setAccountType("CUSTOMER");
+		return user;
 	}
 
 	@Override
@@ -16,7 +20,6 @@ public class UserServiceImplementation implements UserService {
 		// TODO Auto-generated method stub
 
 		BankLauncher.logger.debug("A new user try to register.");
-		System.out.println("Try to register!");
 		System.out.println(username);
 		System.out.println(password);
 		return null;
