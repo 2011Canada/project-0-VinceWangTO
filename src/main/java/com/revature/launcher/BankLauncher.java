@@ -17,7 +17,11 @@ import com.revature.menus.LoginMenu;
 import com.revature.menus.MainMenu;
 import com.revature.menus.Menu;
 import com.revature.menus.RegisterMenu;
+import com.revature.menus.ViewAccountMenu;
+import com.revature.models.Account;
 import com.revature.models.User;
+import com.revature.repositories.AccountDAO;
+import com.revature.repositories.AccountDAOImpl;
 import com.revature.repositories.MenuDAO;
 import com.revature.repositories.MenuMemoryDAO;
 import com.revature.services.CustomerService;
@@ -45,7 +49,7 @@ public class BankLauncher {
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 		// TODO Auto-generated method stub
 
-		logger.info("Server has started");
+		// logger.info("Server has started");
 
 		while (true) {
 			MenuDAO mainMenuDAO = new MenuMemoryDAO();
@@ -54,6 +58,7 @@ public class BankLauncher {
 			String mainOption = mainMenu.getUserOption();
 
 			UserService userService = new UserServiceImplementation();
+			AccountDAO accountDAO = new AccountDAOImpl();
 			HomePage: {
 				switch (mainOption) {
 				case "login":
@@ -72,22 +77,35 @@ public class BankLauncher {
 									CustomerService customerService = new CustomerServiceImplementation();
 
 									CustomerPage: {
+										boolean failed = true;
 										switch (customerOption) {
 										case "apply new account":
-											boolean failed = true;
 											do {
 												Menu applyNewAccountMenu = new ApplyNewAccountMenu(customerService);
 												String result = applyNewAccountMenu.display();
 
 												if (!result.equals("")) {
-													// go back to main
 													goBack();
 													break CustomerPage;
 												}
 											} while (failed);
 											break;
 										case "view balance":
-											break;
+											do {
+												ViewAccountMenu viewAccountMenu = new ViewAccountMenu(loggedInUser,
+														accountDAO);
+												System.out.println(viewAccountMenu.display());
+												Account accountOption = viewAccountMenu.getUserOption();
+
+												if (accountOption != null) {
+													System.out.println("You account #: " + accountOption.getAccountId()
+															+ " balance is : " + accountOption.getBalance());
+													goBack();
+													break CustomerPage;
+												}
+
+											} while (failed);
+
 										case "withdrawal":
 											break;
 										case "deposite":
@@ -103,7 +121,7 @@ public class BankLauncher {
 										}
 									}
 								} else {
-
+									//
 								}
 
 							}

@@ -46,7 +46,7 @@ public class Menu implements Displayable {
 				return "";
 			}
 			return lines.get(choice).getName();
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			System.out.println("Make A valid choice please!\n");
 		}
 		return "";
