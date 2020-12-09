@@ -1,9 +1,8 @@
 package com.revature.menus;
 
-import com.revature.models.Displayable;
 import com.revature.repositories.MenuDAO;
 
-public class CustomerMenu extends Menu implements Displayable {
+public class CustomerMenu extends Menu {
 
 	public CustomerMenu(MenuDAO menu) {
 		super(menu, menu.findCustomer());
@@ -12,7 +11,7 @@ public class CustomerMenu extends Menu implements Displayable {
 
 	@Override
 	public String display() {
-		String display = "##########  Customer  PAGE  ##########\n";
+		String display = "\n##########  Customer  PAGE  ##########\n";
 		display += super.display();
 		return display;
 	}

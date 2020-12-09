@@ -16,9 +16,13 @@ public class MenuMemoryDAO implements MenuDAO {
 		mainOptions.add(new MenuOption("login"));
 		mainOptions.add(new MenuOption("register"));
 
-		customerOptions.add(new MenuOption("creat new"));
-		customerOptions.add(new MenuOption("view"));
+		customerOptions.add(new MenuOption("apply new account"));
+		customerOptions.add(new MenuOption("view balance"));
+		customerOptions.add(new MenuOption("withdrawal"));
 		customerOptions.add(new MenuOption("deposite"));
+		customerOptions.add(new MenuOption("transfer money"));
+		customerOptions.add(new MenuOption("accept money"));
+		customerOptions.add(new MenuOption("go back"));
 
 	}
 

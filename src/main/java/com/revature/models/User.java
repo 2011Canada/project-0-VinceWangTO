@@ -3,7 +3,8 @@ package com.revature.models;
 public class User {
 	private String username;
 	private String password;
-	private String userId;
+	private int userId;
+	private String accountType;
 
 	public String getUsername() {
 		return username;
@@ -21,12 +22,20 @@ public class User {
 		this.password = password;
 	}
 
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 }
