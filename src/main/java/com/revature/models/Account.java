@@ -6,6 +6,16 @@ public class Account {
 	private int userId;
 	private boolean isActive;
 
+	public Account() {
+	}
+
+	public Account(int accountId, double balance, int userId, boolean isActive) {
+		this.accountId = accountId;
+		this.balance = balance;
+		this.userId = userId;
+		this.isActive = isActive;
+	}
+
 	public int getAccountId() {
 		return accountId;
 	}

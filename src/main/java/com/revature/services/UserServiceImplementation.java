@@ -7,7 +7,7 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User login(String username, String password) {
-		BankLauncher.logger.debug("A user try to login.");
+		// BankLauncher.logger.debug("A user try to login.");
 		// connect to database, if find use return User, else return null
 		User user = new User();
 		user.setUserId(123);
