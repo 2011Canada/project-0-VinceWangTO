@@ -7,7 +7,7 @@ import com.revature.models.Transaction;
 
 public interface EmployeeService {
 
-	public boolean manageNewAccount(Account account, boolean setStatue);
+	public boolean manageNewAccount(Account account, String setStatue);
 
 	public List<Account> viewCustomerAccount(int customerId);
 

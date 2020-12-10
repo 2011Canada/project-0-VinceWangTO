@@ -6,7 +6,6 @@ public class CustomerMenu extends Menu {
 
 	public CustomerMenu(MenuDAO menu) {
 		super(menu, menu.findCustomer());
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

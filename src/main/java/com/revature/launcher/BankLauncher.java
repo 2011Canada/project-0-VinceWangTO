@@ -14,8 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.menus.ApplyNewAccountMenu;
 import com.revature.menus.CustomerMenu;
 import com.revature.menus.DepositeMenu;
+import com.revature.menus.EmployeeMenu;
+import com.revature.menus.EmployeeViewCustomerAccountMenu;
+import com.revature.menus.EmployeeViewPengingAccountMenu;
 import com.revature.menus.LoginMenu;
 import com.revature.menus.MainMenu;
+import com.revature.menus.ManageAccountMenu;
 import com.revature.menus.Menu;
 import com.revature.menus.PendingTransactionMenu;
 import com.revature.menus.RegisterMenu;
@@ -33,6 +37,8 @@ import com.revature.repositories.TransactionDAO;
 import com.revature.repositories.TransactionDAOlmpl;
 import com.revature.services.CustomerService;
 import com.revature.services.CustomerServiceImplementation;
+import com.revature.services.EmployeeService;
+import com.revature.services.EmployeeServiceImplementation;
 import com.revature.services.UserService;
 import com.revature.services.UserServiceImplementation;
 
@@ -59,6 +65,12 @@ public class BankLauncher {
 		return viewAccountMenu.getUserOption();
 	}
 
+//	public static Account viewAccount(AccountDAO accountDAO) {
+//		EmployeeViewAccountMenu employeeViewAccountMenu = new EmployeeViewAccountMenu(accountDAO);
+//		System.out.println(employeeViewAccountMenu.display());
+//		return employeeViewAccountMenu.getUserOption();
+//	}
+
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 		// TODO Auto-generated method stub
 
@@ -73,6 +85,7 @@ public class BankLauncher {
 			UserService userService = new UserServiceImplementation();
 			AccountDAO accountDAO = new AccountDAOImpl();
 			TransactionDAO transactionDAO = new TransactionDAOlmpl();
+
 			HomePage: {
 				switch (mainOption) {
 				case "login":
@@ -91,7 +104,6 @@ public class BankLauncher {
 									CustomerService customerService = new CustomerServiceImplementation();
 
 									CustomerPage: {
-
 										switch (customerOption) {
 										case "apply new account":
 											while (true) {
@@ -153,7 +165,6 @@ public class BankLauncher {
 												}
 											}
 										case "transfer money":
-
 											while (true) {
 												Account accountOption = getAccount(loggedInUser, accountDAO);
 												if (accountOption != null) {
@@ -177,27 +188,25 @@ public class BankLauncher {
 										case "accept money":
 											AcceptMoneyPage: {
 												while (true) {
-													while (true) {
-														PendingTransactionMenu pendingTransactionMenu = new PendingTransactionMenu(
-																loggedInUser, transactionDAO);
-														System.out.println(pendingTransactionMenu.display());
-														Transaction transactionOption = pendingTransactionMenu
-																.getUserOption();
+													PendingTransactionMenu pendingTransactionMenu = new PendingTransactionMenu(
+															loggedInUser, transactionDAO);
+													System.out.println(pendingTransactionMenu.display());
+													Transaction transactionOption = pendingTransactionMenu
+															.getUserOption();
 
-														if (TransactionDAOlmpl.getPendingNumber() == 0) {
-															System.out.println("You don't have pending transations!");
-															goBack("\nPress ENTER key to go back to customer page");
-															break CustomerPage;
+													if (TransactionDAOlmpl.getPendingNumber() == 0) {
+														System.out.println("You don't have pending transations!");
+														goBack("\nPress ENTER key to go back to customer page");
+														break CustomerPage;
+													}
+													if (transactionOption != null) {
+														boolean result = transactionDAO
+																.updateTransaction(transactionOption);
+														if (!result) {
+															System.out.println("Transaction failed!");
+															break AcceptMoneyPage;
 														}
-														if (transactionOption != null) {
-															boolean result = transactionDAO
-																	.updateTransaction(transactionOption);
-															if (!result) {
-																System.out.println("Transaction failed!");
-																break AcceptMoneyPage;
-															}
 
-														}
 													}
 												}
 											}
@@ -208,13 +217,64 @@ public class BankLauncher {
 										}
 									}
 								} else {
-									//
+									// HERE is EMPLOYEE MENU
+									Menu employeeMenu = new EmployeeMenu(mainMenuDAO);
+									System.out.println(employeeMenu.display());
+									String employeeOption = employeeMenu.getUserOption();
+									EmployeeService employeeService = new EmployeeServiceImplementation(accountDAO);
+
+									EmployeePage: {
+										switch (employeeOption) {
+										case "manage new accounts":
+											while (true) {
+												EmployeeViewPengingAccountMenu employeeViewAccountMenu = new EmployeeViewPengingAccountMenu(
+														accountDAO);
+												System.out.println(employeeViewAccountMenu.display());
+
+												Account accountOption = employeeViewAccountMenu.getUserOption();
+
+												// System.out.println(accountOption);
+
+												if (AccountDAOImpl.getPendingNumber() == 0) {
+													System.out.println("You don't have pending transations!");
+													goBack("\nPress ENTER key to go back to Employee page");
+													break EmployeePage;
+												}
+												if (accountOption != null) {
+
+													ManageAccountMenu manageAccountMenu = new ManageAccountMenu(
+															accountOption, employeeService);
+													String rs = manageAccountMenu.display();
+													System.out.println(rs);
+												}
+											}
+										case "view customer accounts":
+											while (true) {
+												EmployeeViewCustomerAccountMenu employeeViewCustomerAccountMenu = new EmployeeViewCustomerAccountMenu(
+														accountDAO);
+												System.out.print(employeeViewCustomerAccountMenu.display());
+												Account accountOption = employeeViewCustomerAccountMenu.getUserOption();
+
+												if (accountOption != null) {
+													System.out.println("Account #: " + accountOption.getAccountId()
+															+ " balance is : " + accountOption.getBalance());
+													goBack("\nPress ENTER key to go back to Employee page");
+													break EmployeePage;
+												}
+											}
+										case "view all transactions":
+											break;
+										case "go back":
+											break HomePage;
+										default:
+										}
+
+									}
+
 								}
-
 							}
-						}
-						continue;
 
+						}
 					}
 				case "register":
 					while (true) {

@@ -10,4 +10,6 @@ public interface MenuDAO {
 
 	public List<MenuOption> findCustomer();
 
+	public List<MenuOption> findEmployee();
+
 }
