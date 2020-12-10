@@ -12,6 +12,7 @@ public class JDBCMenu<T> implements Displayable {
 
 	public JDBCMenu() {
 		userIn = new Scanner(System.in);
+		// this.lines = new ArrayList<T>();
 	}
 
 	@Override

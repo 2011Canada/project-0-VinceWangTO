@@ -11,7 +11,8 @@ public class UserServiceImplementation implements UserService {
 		// connect to database, if find use return User, else return null
 		User user = new User();
 		user.setUserId(123);
-		user.setAccountType("CUSTOMER");
+		// user.setAccountType("CUSTOMER");
+		user.setAccountType("EMPLOYEE");
 		return user;
 	}
 

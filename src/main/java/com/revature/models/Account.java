@@ -4,16 +4,24 @@ public class Account {
 	private int accountId;
 	private double balance;
 	private int userId;
-	private boolean isActive;
+	private String status;
 
 	public Account() {
 	}
 
-	public Account(int accountId, double balance, int userId, boolean isActive) {
+	public Account(int accountId, double balance, int userId) {
 		this.accountId = accountId;
 		this.balance = balance;
 		this.userId = userId;
-		this.isActive = isActive;
+		this.status = "PENDING";
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public int getAccountId() {
@@ -38,14 +46,6 @@ public class Account {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
 	}
 
 }

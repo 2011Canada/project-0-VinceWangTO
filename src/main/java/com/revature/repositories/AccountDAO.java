@@ -8,6 +8,8 @@ public interface AccountDAO {
 
 	public List<Account> getAllAccounts();
 
+	public List<Account> getAllPendingAccounts();
+
 	public List<Account> getAccountsByUserId(int userId);
 
 	public boolean addAccount(Account account);
@@ -15,4 +17,6 @@ public interface AccountDAO {
 	public boolean updateAccount(Account account);
 
 	public boolean deleteAccount(Account account);
+
+	public boolean manageNewAccount(Account account);
 }

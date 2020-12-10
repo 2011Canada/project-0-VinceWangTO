@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.text.DecimalFormat;
+
 import com.revature.launcher.BankLauncher;
 import com.revature.models.Account;
 import com.revature.models.Transaction;
@@ -13,7 +15,6 @@ public class CustomerServiceImplementation implements CustomerService {
 		System.out.println("\nWaiting bank to approve the account, account starting balance: " + balance);
 
 		Account newAccount = new Account();
-		newAccount.setActive(false);
 		newAccount.setUserId(123);
 		return newAccount;
 	}
@@ -54,8 +55,12 @@ public class CustomerServiceImplementation implements CustomerService {
 			System.out.println("\nYou balance is: $" + from.getBalance() + ", you can't transfer $" + amount + "\n");
 			return false;
 		}
+
+		double balance = from.getBalance() - amount;
+		DecimalFormat f = new DecimalFormat("##.00");
+
 		System.out.println("From account #" + from.getAccountId() + " tranfers to account #" + toAccountId + " $"
-				+ amount + ", you remain balance: $" + (from.getBalance() - amount));
+				+ amount + ", you remain balance: $" + f.format(balance));
 		return true;
 	}
 
