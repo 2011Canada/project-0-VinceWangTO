@@ -7,11 +7,33 @@ public class Transaction {
 	private int toAccount;
 	private boolean transfered;
 
-	public int getTransferId() {
+	private double amount;
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public Transaction() {
+	}
+
+	public Transaction(int transactionId, int fromAccount, int toAccount, double amount, boolean transfered) {
+		super();
+		this.transactionId = transactionId;
+		this.fromAccount = fromAccount;
+		this.toAccount = toAccount;
+		this.transfered = transfered;
+		this.amount = amount;
+	}
+
+	public int getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransferId(int transactionId) {
+	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
 

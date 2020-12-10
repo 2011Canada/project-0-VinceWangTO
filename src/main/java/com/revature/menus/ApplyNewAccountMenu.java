@@ -35,8 +35,10 @@ public class ApplyNewAccountMenu extends Menu {
 			String jsonString = BankLauncher.mapper.writeValueAsString(newAccount);
 			return jsonString;
 
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			System.out.println("\nPlease enter a valid start balance!\n");
+		} catch (Exception e) {
+
 		}
 
 		return "";
