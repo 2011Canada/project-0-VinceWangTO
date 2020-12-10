@@ -9,12 +9,12 @@ public interface CustomerService {
 
 	public Account viewBalance(int accountId);
 
-	public Account withdrawal(Account account, double amount);
+	public boolean withdrawal(Account account, double amount);
 
-	public Account deposit(Account account, double amount);
+	public boolean deposit(Account account, double amount);
 
-	public Transaction transferMoney(Account from, int toAccountId);
+	public boolean transferMoney(Account from, int toAccountId, double amount);
 
-	public Transaction acceptMoney(Transaction pending);
+	public boolean acceptMoney(Transaction pending);
 
 }

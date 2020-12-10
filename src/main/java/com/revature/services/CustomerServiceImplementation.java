@@ -25,27 +25,44 @@ public class CustomerServiceImplementation implements CustomerService {
 	}
 
 	@Override
-	public Account withdrawal(Account account, double amount) {
+	public boolean withdrawal(Account account, double amount) {
 		// TODO Auto-generated method stub
-		return null;
+		if (account.getBalance() < amount) {
+			System.out
+					.println("\nYou balance is: $" + account.getBalance() + ", you can't withdrawal $" + amount + "\n");
+			return false;
+		}
+		account.setBalance(account.getBalance() - amount);
+		System.out.print("From #: " + account.getAccountId());
+		System.out.println(" withdrawal $" + amount);
+		return true;
 	}
 
 	@Override
-	public Account deposit(Account account, double amount) {
+	public boolean deposit(Account account, double amount) {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("\nYou balance is: $" + account.getBalance() + ", you deposit $" + amount + "\n");
+		System.out.println("You total balance is: $" + (account.getBalance() + amount));
+		return true;
+
 	}
 
 	@Override
-	public Transaction transferMoney(Account from, int toAccountId) {
+	public boolean transferMoney(Account from, int toAccountId, double amount) {
 		// TODO Auto-generated method stub
-		return null;
+		if (from.getBalance() < amount) {
+			System.out.println("\nYou balance is: $" + from.getBalance() + ", you can't transfer $" + amount + "\n");
+			return false;
+		}
+		System.out.println("From account #" + from.getAccountId() + " tranfers to account #" + toAccountId + " $"
+				+ amount + ", you remain balance: $" + (from.getBalance() - amount));
+		return true;
 	}
 
 	@Override
-	public Transaction acceptMoney(Transaction pending) {
+	public boolean acceptMoney(Transaction pending) {
 		// TODO Auto-generated method stub
-		return null;
+		return true;
 	}
 
 }
