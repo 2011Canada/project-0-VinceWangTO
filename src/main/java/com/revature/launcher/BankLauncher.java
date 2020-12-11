@@ -33,7 +33,6 @@ import com.revature.repositories.AccountDAO;
 import com.revature.repositories.AccountDAOImpl;
 import com.revature.repositories.MenuDAO;
 import com.revature.repositories.MenuMemoryDAO;
-import com.revature.repositories.TransactionDAO;
 import com.revature.repositories.TransactionDAOlmpl;
 import com.revature.repositories.UserDAOImpl;
 import com.revature.services.CustomerService;
@@ -87,8 +86,8 @@ public class BankLauncher {
 			UserDAOImpl userd = new UserDAOImpl();
 			UserService userService = new UserServiceImplementation(userd);
 
-			AccountDAO accountDAO = new AccountDAOImpl();
-			TransactionDAO transactionDAO = new TransactionDAOlmpl();
+			AccountDAOImpl accountDAO = new AccountDAOImpl();
+			TransactionDAOlmpl transactionDAO = new TransactionDAOlmpl();
 
 			HomePage: {
 				switch (mainOption) {
@@ -105,19 +104,21 @@ public class BankLauncher {
 									System.out.println(customerMenu.display());
 									String customerOption = customerMenu.getUserOption();
 
-									CustomerService customerService = new CustomerServiceImplementation();
+									CustomerService customerService = new CustomerServiceImplementation(accountDAO);
 
 									CustomerPage: {
 										switch (customerOption) {
 										case "apply new account":
 											while (true) {
-												Menu applyNewAccountMenu = new ApplyNewAccountMenu(customerService);
+												Menu applyNewAccountMenu = new ApplyNewAccountMenu(customerService,
+														loggedInUser);
 												String result = applyNewAccountMenu.display();
 
-												if (!result.equals("")) {
+												if (result == "SUCCESS") {
 													goBack("\nPress ENTER key to go back to customer page");
 													break CustomerPage;
 												}
+
 											}
 
 										case "view balance":
@@ -283,7 +284,11 @@ public class BankLauncher {
 				case "register":
 					while (true) {
 						Menu registerMenu = new RegisterMenu(userService);
-						registerMenu.display();
+						String rs = registerMenu.display();
+						if (rs == "SUCCESS") {
+							goBack("\nRegister is successful, press ENTER key to go back to Home page");
+							break HomePage;
+						}
 					}
 				default:
 

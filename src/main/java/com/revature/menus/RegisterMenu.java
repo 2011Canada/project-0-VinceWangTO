@@ -2,9 +2,7 @@ package com.revature.menus;
 
 import java.util.List;
 
-import com.revature.launcher.BankLauncher;
 import com.revature.models.MenuOption;
-import com.revature.models.User;
 import com.revature.repositories.MenuDAO;
 import com.revature.services.UserService;
 
@@ -33,16 +31,15 @@ public class RegisterMenu extends Menu {
 			System.out.print("Please enter a password:");
 			String password = this.userIn.nextLine();
 
-			User newUser = this.userService.register(userName, password);
-
-			String jsonString = BankLauncher.mapper.writeValueAsString(newUser);
-			System.out.print("\n");
-			return jsonString;
+			if (this.userService.register(userName, password))
+				return "SUCCESS";
+			else
+				return "Failed to Register!";
 
 		} catch (Exception e) {
 			System.out.println("Make A valid choice please");
+			return "Failed to Register!";
 		}
-		return "";
 	}
 
 }

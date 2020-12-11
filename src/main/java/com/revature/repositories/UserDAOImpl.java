@@ -55,4 +55,40 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	@Override
+	public boolean registerUser(User user) {
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "INSERT INTO user_table (User_name, user_password, account_Type) VALUES (?, ?, ?);";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getAccountType());
+
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
+	}
+
 }

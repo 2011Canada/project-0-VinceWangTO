@@ -5,7 +5,7 @@ import com.revature.models.Transaction;
 
 public interface CustomerService {
 
-	public Account applyNewAccount(double balance);
+	public boolean applyNewAccount(int userId, double account);
 
 	public Account viewBalance(int accountId);
 

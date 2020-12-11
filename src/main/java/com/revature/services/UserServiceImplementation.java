@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import com.revature.launcher.BankLauncher;
 import com.revature.models.User;
 import com.revature.repositories.UserDAOImpl;
 
@@ -21,13 +20,13 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User register(String username, String password) {
+	public boolean register(String username, String password) {
 		// TODO Auto-generated method stub
-
-		BankLauncher.logger.debug("A new user try to register.");
-		System.out.println(username);
-		System.out.println(password);
-		return null;
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setAccountType("CUSTOMER");
+		return this.userd.registerUser(user);
 	}
 
 }
