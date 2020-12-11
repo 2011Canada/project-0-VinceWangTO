@@ -64,12 +64,6 @@ public class BankLauncher {
 		return viewAccountMenu.getUserOption();
 	}
 
-//	public static Account viewAccount(AccountDAO accountDAO) {
-//		EmployeeViewAccountMenu employeeViewAccountMenu = new EmployeeViewAccountMenu(accountDAO);
-//		System.out.println(employeeViewAccountMenu.display());
-//		return employeeViewAccountMenu.getUserOption();
-//	}
-
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 		// TODO Auto-generated method stub
 
@@ -193,7 +187,7 @@ public class BankLauncher {
 											AcceptMoneyPage: {
 												while (true) {
 													PendingTransactionMenu pendingTransactionMenu = new PendingTransactionMenu(
-															loggedInUser, transactionDAO);
+															loggedInUser, customerService);
 													System.out.println(pendingTransactionMenu.display());
 													Transaction transactionOption = pendingTransactionMenu
 															.getUserOption();
@@ -204,9 +198,10 @@ public class BankLauncher {
 														break CustomerPage;
 													}
 													if (transactionOption != null) {
-														boolean result = transactionDAO
-																.updateTransaction(transactionOption);
-														if (!result) {
+														boolean result = customerService.acceptMoney(transactionOption);
+														if (result) {
+															System.out.println("Transaction Successful!");
+														} else {
 															System.out.println("Transaction failed!");
 															break AcceptMoneyPage;
 														}
@@ -236,8 +231,6 @@ public class BankLauncher {
 												System.out.println(employeeViewAccountMenu.display());
 
 												Account accountOption = employeeViewAccountMenu.getUserOption();
-
-												// System.out.println(accountOption);
 
 												if (AccountDAOImpl.getPendingNumber() == 0) {
 													System.out.println("You don't have pending transations!");

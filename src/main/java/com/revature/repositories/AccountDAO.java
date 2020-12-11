@@ -21,4 +21,6 @@ public interface AccountDAO {
 	public boolean deleteAccount(Account account);
 
 	public boolean manageNewAccount(Account account);
+
+	public boolean acceptMoney(int accountId, double amount);
 }
