@@ -9,7 +9,7 @@ public interface EmployeeService {
 
 	public boolean manageNewAccount(Account account, String setStatue);
 
-	public List<Account> viewCustomerAccount(int customerId);
+	public List<Account> viewCustomerAccount(String customerName);
 
 	public List<Transaction> viewTransactions();
 

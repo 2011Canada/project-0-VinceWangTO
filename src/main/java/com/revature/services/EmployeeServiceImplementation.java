@@ -22,8 +22,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
 	}
 
 	@Override
-	public List<Account> viewCustomerAccount(int customerId) {
-		return this.accountDAO.getAccountsByUserId(customerId);
+	public List<Account> viewCustomerAccount(String customerName) {
+		return this.accountDAO.getAccountsByUsername(customerName);
 	}
 
 	@Override

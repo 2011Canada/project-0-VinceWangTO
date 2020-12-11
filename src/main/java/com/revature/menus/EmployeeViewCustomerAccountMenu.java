@@ -17,13 +17,13 @@ public class EmployeeViewCustomerAccountMenu extends JDBCMenu<Account> {
 	@Override
 	public String display() {
 
-		System.out.print("##########  View Customer Account  ##########\nPlease enter a customer number: ");
+		System.out.print("##########  View Customer Account  ##########\nPlease enter an account holder name: ");
 		String display = "Please choose an account:\n";
 		String input = this.userIn.nextLine();
 		try {
-			int choice = Integer.parseInt(input);
+			// int choice = Integer.parseInt(input);
 
-			List<Account> accounts = employeeService.viewCustomerAccount(choice);
+			List<Account> accounts = employeeService.viewCustomerAccount(input);
 
 			if (accounts.size() == 0) {
 				display = "Customer don't have any accounts";
