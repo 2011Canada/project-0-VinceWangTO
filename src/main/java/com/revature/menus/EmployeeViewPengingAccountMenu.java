@@ -3,23 +3,24 @@ package com.revature.menus;
 import java.util.List;
 
 import com.revature.models.Account;
-import com.revature.repositories.AccountDAO;
+import com.revature.services.EmployeeService;
 
 public class EmployeeViewPengingAccountMenu extends JDBCMenu<Account> {
 
-	AccountDAO account;
+	EmployeeService employeeService;
 
-	public EmployeeViewPengingAccountMenu(AccountDAO account) {
+	public EmployeeViewPengingAccountMenu(EmployeeService employeeService) {
 		super();
-		this.account = account;
+		this.employeeService = employeeService;
 	}
 
 	@Override
 	public String display() {
 		// TODO Auto-generated method stub
 		// from service get data to display
-		List<Account> accounts = account.getAllPendingAccounts();
-		String display = "";
+		List<Account> accounts = employeeService.getPendingAccounts();
+
+		String display = "##########  Pending Accounts  ##########\nPlease choose an option to process!\n";
 		if (accounts == null) {
 			display = "There is no pending accounts.";
 			return display;

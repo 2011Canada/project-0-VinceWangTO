@@ -18,8 +18,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
 	public boolean manageNewAccount(Account account, String setStatue) {
 		// TODO Auto-generated method stub
 		account.setStatus(setStatue);
-		accountDAO.manageNewAccount(account);
-		return true;
+		return accountDAO.manageNewAccount(account);
 	}
 
 	@Override
@@ -32,6 +31,11 @@ public class EmployeeServiceImplementation implements EmployeeService {
 	public List<Transaction> viewTransactions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Account> getPendingAccounts() {
+		return accountDAO.getAllPendingAccounts();
 	}
 
 }

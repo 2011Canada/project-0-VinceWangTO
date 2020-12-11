@@ -233,7 +233,7 @@ public class BankLauncher {
 										case "manage new accounts":
 											while (true) {
 												EmployeeViewPengingAccountMenu employeeViewAccountMenu = new EmployeeViewPengingAccountMenu(
-														accountDAO);
+														employeeService);
 												System.out.println(employeeViewAccountMenu.display());
 
 												Account accountOption = employeeViewAccountMenu.getUserOption();
