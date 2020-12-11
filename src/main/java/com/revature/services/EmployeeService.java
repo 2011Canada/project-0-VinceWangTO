@@ -13,4 +13,6 @@ public interface EmployeeService {
 
 	public List<Transaction> viewTransactions();
 
+	public List<Account> getPendingAccounts();
+
 }

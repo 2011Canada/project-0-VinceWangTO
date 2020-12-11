@@ -2,6 +2,7 @@ package com.revature.repositories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,6 @@ public class AccountDAOImpl implements AccountDAO {
 
 	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
 	PreparedStatement stmt = null;
-
-	static List<Account> pendingAccounts = new ArrayList<Account>();
-	static boolean loading = false;
 	static int pendingNumber = 0;
 
 	public static int getPendingNumber() {
@@ -30,17 +28,42 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public List<Account> getAllPendingAccounts() {
-		// TODO Auto-generated method stub
-		if (pendingAccounts.size() == 0 && !loading) {
-			pendingAccounts.add(new Account(10000, 20.2, 33));
-			pendingAccounts.add(new Account(10040, 1120.2, 33));
-			pendingAccounts.add(new Account(10020, 5520.2, 33));
-			pendingAccounts.add(new Account(12000, 520.2, 33));
-			loading = true;
-			pendingNumber = pendingAccounts.size();
+
+		List<Account> accounts = new ArrayList<Account>();
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM account_table WHERE status = 'PENDING';";
+			stmt = conn.prepareStatement(sql);
+			ResultSet res = stmt.executeQuery();
+
+			while (res.next()) {
+				Account account = new Account();
+				account.setAccountId(res.getInt("account_Id"));
+				account.setUserId(res.getInt("user_Id"));
+				account.setBalance(res.getDouble("balance"));
+				account.setStatus(res.getString("status"));
+				accounts.add(account);
+			}
+			pendingNumber = accounts.size();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
 		}
 
-		return pendingAccounts;
+		return accounts;
 	}
 
 	@Override
@@ -106,10 +129,38 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public boolean manageNewAccount(Account account) {
-		// TODO Auto-generated method stub
-		pendingAccounts.remove(account);
-		pendingNumber--;
-		return true;
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE account_table SET status=? WHERE account_Id=? ;";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, account.getStatus());
+			stmt.setInt(2, account.getAccountId());
+
+			if (stmt.executeUpdate() != 0) {
+				pendingNumber--;
+				return true;
+			} else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
 	}
 
 }
