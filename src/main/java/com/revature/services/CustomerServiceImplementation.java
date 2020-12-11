@@ -3,6 +3,7 @@ package com.revature.services;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import com.revature.launcher.BankLauncher;
 import com.revature.models.Account;
 import com.revature.models.Transaction;
 import com.revature.repositories.AccountDAOImpl;
@@ -48,6 +49,10 @@ public class CustomerServiceImplementation implements CustomerService {
 		if (this.accountd.updateAccount(account)) {
 			System.out.print("From #: " + account.getAccountId());
 			System.out.println(" withdrawal $" + amount + ", remaining balance: $" + account.getBalance());
+
+			String message = "Customer #" + account.getUserId() + " withdrawal $" + amount + " from account #"
+					+ account.getAccountId() + ".";
+			BankLauncher.logger.info(message);
 			return true;
 		}
 		return false;
@@ -63,7 +68,11 @@ public class CustomerServiceImplementation implements CustomerService {
 		if (this.accountd.updateAccount(account)) {
 			System.out.println("\nAccount#" + account.getAccountId() + " starting balance: $" + startBalance
 					+ ", deposit $" + amount + "\ntotal balance: $" + endBalance);
-			System.out.println();
+
+			String message = "Customer #" + account.getUserId() + " deposit $" + amount + " to account #"
+					+ account.getAccountId() + ".";
+			BankLauncher.logger.info(message);
+
 			return true;
 		}
 		return false;
@@ -92,6 +101,11 @@ public class CustomerServiceImplementation implements CustomerService {
 		if (this.accountd.updateAccount(from) && this.transd.addTransaction(transaction)) {
 			System.out.println("From account #" + from.getAccountId() + " tranfers to account #" + toAccountId + " $"
 					+ amount + ", you remain balance: $" + f.format(balance));
+
+			String message = "Customer #" + from.getUserId() + " transfer $" + amount + " to account #" + toAccountId
+					+ ".";
+			BankLauncher.logger.info(message);
+
 			return true;
 		} else {
 			System.out.println("Something went wrong, please wait and try again");

@@ -3,7 +3,6 @@ package com.revature.services;
 import java.util.List;
 
 import com.revature.models.Account;
-import com.revature.models.Transaction;
 
 public interface EmployeeService {
 
@@ -11,7 +10,7 @@ public interface EmployeeService {
 
 	public List<Account> viewCustomerAccount(String customerName);
 
-	public List<Transaction> viewTransactions();
+	public void viewTransactions();
 
 	public List<Account> getPendingAccounts();
 
