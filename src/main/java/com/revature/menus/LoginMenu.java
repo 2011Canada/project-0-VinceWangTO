@@ -2,7 +2,7 @@ package com.revature.menus;
 
 import java.util.List;
 
-import com.revature.launcher.BankLauncher;
+import com.revature.launcher.MyApp;
 import com.revature.models.MenuOption;
 import com.revature.models.User;
 import com.revature.repositories.MenuDAO;
@@ -37,7 +37,7 @@ public class LoginMenu extends Menu {
 			if (user == null) {
 				throw new Exception();
 			}
-			String jsonString = BankLauncher.mapper.writeValueAsString(user);
+			String jsonString = MyApp.mapper.writeValueAsString(user);
 			return jsonString;
 		} catch (Exception e) {
 			System.out.println("\n\nCan not find the user, please re-enter!");

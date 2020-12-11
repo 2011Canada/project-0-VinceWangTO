@@ -3,7 +3,7 @@ package com.revature.services;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import com.revature.launcher.BankLauncher;
+import com.revature.launcher.MyApp;
 import com.revature.models.Account;
 import com.revature.models.Transaction;
 import com.revature.repositories.AccountDAOImpl;
@@ -52,7 +52,7 @@ public class CustomerServiceImplementation implements CustomerService {
 
 			String message = "Customer #" + account.getUserId() + " withdrawal $" + amount + " from account #"
 					+ account.getAccountId() + ".";
-			BankLauncher.logger.info(message);
+			MyApp.logger.info(message);
 			return true;
 		}
 		return false;
@@ -71,7 +71,7 @@ public class CustomerServiceImplementation implements CustomerService {
 
 			String message = "Customer #" + account.getUserId() + " deposit $" + amount + " to account #"
 					+ account.getAccountId() + ".";
-			BankLauncher.logger.info(message);
+			MyApp.logger.info(message);
 
 			return true;
 		}
@@ -104,7 +104,7 @@ public class CustomerServiceImplementation implements CustomerService {
 
 			String message = "Customer #" + from.getUserId() + " transfer $" + amount + " to account #" + toAccountId
 					+ ".";
-			BankLauncher.logger.info(message);
+			MyApp.logger.info(message);
 
 			return true;
 		} else {
