@@ -1,5 +1,6 @@
 package com.revature.menus;
 
+import com.revature.launcher.MyApp;
 import com.revature.models.Account;
 import com.revature.services.EmployeeService;
 
@@ -37,6 +38,11 @@ public class ManageAccountMenu extends JDBCMenu<Account> {
 
 			boolean success = employeeService.manageNewAccount(account, status);
 			if (success) {
+
+				String message = "Customer #" + account.getUserId() + " creates a new account #"
+						+ account.getAccountId() + ", with starting balance: $" + account.getBalance() + ".";
+				MyApp.logger.info(message);
+
 				return "Account get " + status + "! ";
 			}
 			return "";
