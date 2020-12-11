@@ -40,18 +40,30 @@ public class CustomerServiceImplementation implements CustomerService {
 					.println("\nYou balance is: $" + account.getBalance() + ", you can't withdrawal $" + amount + "\n");
 			return false;
 		}
+
 		account.setBalance(account.getBalance() - amount);
-		System.out.print("From #: " + account.getAccountId());
-		System.out.println(" withdrawal $" + amount);
-		return true;
+		if (this.accountd.updateAccount(account)) {
+			System.out.print("From #: " + account.getAccountId());
+			System.out.println(" withdrawal $" + amount + ", remaining balance: $" + account.getBalance());
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean deposit(Account account, double amount) {
-		// TODO Auto-generated method stub
-		System.out.println("\nYou balance is: $" + account.getBalance() + ", you deposit $" + amount + "\n");
-		System.out.println("You total balance is: $" + (account.getBalance() + amount));
-		return true;
+
+		double startBalance = account.getBalance();
+		double endBalance = account.getBalance() + amount;
+		account.setBalance(endBalance);
+
+		if (this.accountd.updateAccount(account)) {
+			System.out.println("\nAccount#" + account.getAccountId() + " starting balance: $" + startBalance
+					+ ", deposit $" + amount + "\ntotal balance: $" + endBalance);
+			System.out.println();
+			return true;
+		}
+		return false;
 
 	}
 

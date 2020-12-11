@@ -157,7 +157,6 @@ public class BankLauncher {
 												Account accountOption = getAccount(loggedInUser, customerService);
 												if (accountOption != null) {
 													while (true) {
-
 														DepositeMenu depositeMenuMenu = new DepositeMenu(accountOption,
 																customerService);
 														String rs = depositeMenuMenu.display();

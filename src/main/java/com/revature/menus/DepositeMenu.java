@@ -19,7 +19,8 @@ public class DepositeMenu extends JDBCMenu<Account> {
 	public String display() {
 
 		String display = "##########  Deposite Money  ##########\n";
-		display += "you have $" + this.account.getBalance() + " in you account.\nPlease enter deposite amount:";
+		display += "Your account #" + this.account.getAccountId() + " have $" + this.account.getBalance()
+				+ ".\nPlease enter deposite amount:";
 		System.out.print(display);
 		String input = this.userIn.nextLine();
 
@@ -39,7 +40,6 @@ public class DepositeMenu extends JDBCMenu<Account> {
 		} catch (Exception e) {
 
 		}
-
 		return "";
 	}
 }
