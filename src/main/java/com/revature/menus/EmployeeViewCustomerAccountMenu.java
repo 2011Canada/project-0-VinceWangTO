@@ -3,15 +3,15 @@ package com.revature.menus;
 import java.util.List;
 
 import com.revature.models.Account;
-import com.revature.repositories.AccountDAO;
+import com.revature.services.EmployeeService;
 
 public class EmployeeViewCustomerAccountMenu extends JDBCMenu<Account> {
 
-	AccountDAO account;
+	EmployeeService employeeService;
 
-	public EmployeeViewCustomerAccountMenu(AccountDAO account) {
+	public EmployeeViewCustomerAccountMenu(EmployeeService employeeService) {
 		super();
-		this.account = account;
+		this.employeeService = employeeService;
 	}
 
 	@Override
@@ -23,10 +23,10 @@ public class EmployeeViewCustomerAccountMenu extends JDBCMenu<Account> {
 		try {
 			int choice = Integer.parseInt(input);
 
-			List<Account> accounts = account.getAccountsByUserId(choice);
+			List<Account> accounts = employeeService.viewCustomerAccount(choice);
 
-			if (accounts == null) {
-				display = "User don't have any accounts";
+			if (accounts.size() == 0) {
+				display = "Customer don't have any accounts";
 				return display;
 			}
 			this.lines = accounts;

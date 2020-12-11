@@ -4,26 +4,26 @@ import java.util.List;
 
 import com.revature.models.Account;
 import com.revature.models.User;
-import com.revature.repositories.AccountDAO;
+import com.revature.services.CustomerService;
 
 public class ViewAccountMenu extends JDBCMenu<Account> {
 
-	AccountDAO account;
 	User user;
+	CustomerService customerService;
 
-	public ViewAccountMenu(User user, AccountDAO account) {
+	public ViewAccountMenu(User user, CustomerService customerService) {
 		super();
-		this.account = account;
+		this.customerService = customerService;
 		this.user = user;
 	}
 
 	@Override
 	public String display() {
-		// TODO Auto-generated method stub
-		// from service get data to display
-		List<Account> accounts = account.getAccountsByUserId(user.getUserId());
+
+		List<Account> accounts = customerService.viewBalance(user.getUserId());
 		String display = "";
-		if (accounts == null) {
+
+		if (accounts.size() == 0) {
 			display = "You don't have any accounts yet.";
 			return display;
 		}
