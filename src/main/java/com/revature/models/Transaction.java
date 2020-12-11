@@ -3,7 +3,7 @@ package com.revature.models;
 public class Transaction {
 
 	private int transactionId;
-	private int fromAccount;
+	private int fromUserId;
 	private int toAccount;
 	private boolean transfered;
 
@@ -20,10 +20,10 @@ public class Transaction {
 	public Transaction() {
 	}
 
-	public Transaction(int transactionId, int fromAccount, int toAccount, double amount, boolean transfered) {
+	public Transaction(int transactionId, int fromUserId, int toAccount, double amount, boolean transfered) {
 		super();
 		this.transactionId = transactionId;
-		this.fromAccount = fromAccount;
+		this.fromUserId = fromUserId;
 		this.toAccount = toAccount;
 		this.transfered = transfered;
 		this.amount = amount;
@@ -37,12 +37,12 @@ public class Transaction {
 		this.transactionId = transactionId;
 	}
 
-	public int getFromAccount() {
-		return fromAccount;
+	public int getFromUserId() {
+		return fromUserId;
 	}
 
-	public void setFromAccount(int fromAccount) {
-		this.fromAccount = fromAccount;
+	public void setFromUserId(int fromUserId) {
+		this.fromUserId = fromUserId;
 	}
 
 	public int getToAccount() {
@@ -53,7 +53,7 @@ public class Transaction {
 		this.toAccount = toAccount;
 	}
 
-	public boolean isTransfered() {
+	public boolean getTransfered() {
 		return transfered;
 	}
 

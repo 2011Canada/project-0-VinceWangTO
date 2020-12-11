@@ -6,13 +6,16 @@ import java.util.List;
 import com.revature.models.Account;
 import com.revature.models.Transaction;
 import com.revature.repositories.AccountDAOImpl;
+import com.revature.repositories.TransactionDAOlmpl;
 
 public class CustomerServiceImplementation implements CustomerService {
 
 	private AccountDAOImpl accountd;
+	private TransactionDAOlmpl transd;
 
-	public CustomerServiceImplementation(AccountDAOImpl accountd) {
+	public CustomerServiceImplementation(AccountDAOImpl accountd, TransactionDAOlmpl transd) {
 		this.accountd = accountd;
+		this.transd = transd;
 	}
 
 	@Override
@@ -78,9 +81,23 @@ public class CustomerServiceImplementation implements CustomerService {
 		double balance = from.getBalance() - amount;
 		DecimalFormat f = new DecimalFormat("##.00");
 
-		System.out.println("From account #" + from.getAccountId() + " tranfers to account #" + toAccountId + " $"
-				+ amount + ", you remain balance: $" + f.format(balance));
-		return true;
+		from.setBalance(balance);
+
+		Transaction transaction = new Transaction();
+		transaction.setFromUserId(from.getAccountId());
+		transaction.setToAccount(toAccountId);
+		transaction.setAmount(amount);
+		transaction.setTransfered(false);
+
+		if (this.accountd.updateAccount(from) && this.transd.addTransaction(transaction)) {
+			System.out.println("From account #" + from.getAccountId() + " tranfers to account #" + toAccountId + " $"
+					+ amount + ", you remain balance: $" + f.format(balance));
+			return true;
+		} else {
+			System.out.println("Something went wrong, please wait and try again");
+			return false;
+		}
+
 	}
 
 	@Override

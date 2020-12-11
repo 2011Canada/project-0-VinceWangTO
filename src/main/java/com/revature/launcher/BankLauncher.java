@@ -103,7 +103,8 @@ public class BankLauncher {
 									System.out.println(customerMenu.display());
 									String customerOption = customerMenu.getUserOption();
 
-									CustomerService customerService = new CustomerServiceImplementation(accountDAO);
+									CustomerService customerService = new CustomerServiceImplementation(accountDAO,
+											transactionDAO);
 
 									CustomerPage: {
 										switch (customerOption) {
