@@ -1,11 +1,18 @@
 package com.revature.repositories;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Account;
+import com.revature.util.ConnectionFactory;
 
 public class AccountDAOImpl implements AccountDAO {
+
+	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
+	PreparedStatement stmt = null;
 
 	static List<Account> pendingAccounts = new ArrayList<Account>();
 	static boolean loading = false;
@@ -52,13 +59,42 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public boolean addAccount(Account account) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "INSERT INTO account_table (user_id, balance, status) VALUES (?, ?, ?);";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, account.getUserId());
+			stmt.setDouble(2, account.getBalance());
+			stmt.setString(3, account.getStatus());
+
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
 	}
 
 	@Override
 	public boolean updateAccount(Account account) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

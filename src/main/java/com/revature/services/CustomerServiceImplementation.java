@@ -2,21 +2,28 @@ package com.revature.services;
 
 import java.text.DecimalFormat;
 
-import com.revature.launcher.BankLauncher;
 import com.revature.models.Account;
 import com.revature.models.Transaction;
+import com.revature.repositories.AccountDAOImpl;
 
 public class CustomerServiceImplementation implements CustomerService {
 
+	private AccountDAOImpl accountd;
+
+	public CustomerServiceImplementation(AccountDAOImpl accountd) {
+		this.accountd = accountd;
+	}
+
 	@Override
-	public Account applyNewAccount(double balance) {
-		BankLauncher.logger.debug("A user try to login.");
+	public boolean applyNewAccount(int userId, double balance) {
 
 		System.out.println("\nWaiting bank to approve the account, account starting balance: " + balance);
-
 		Account newAccount = new Account();
-		newAccount.setUserId(123);
-		return newAccount;
+		newAccount.setUserId(userId);
+		newAccount.setBalance(balance);
+		newAccount.setStatus("PENDING");
+		return this.accountd.addAccount(newAccount);
+
 	}
 
 	@Override
