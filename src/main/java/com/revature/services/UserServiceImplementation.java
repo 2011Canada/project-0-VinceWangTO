@@ -2,18 +2,22 @@ package com.revature.services;
 
 import com.revature.launcher.BankLauncher;
 import com.revature.models.User;
+import com.revature.repositories.UserDAOImpl;
 
 public class UserServiceImplementation implements UserService {
 
+	private UserDAOImpl userd;
+
+	public UserServiceImplementation(UserDAOImpl userd) {
+		this.userd = userd;
+	}
+
 	@Override
 	public User login(String username, String password) {
-		// BankLauncher.logger.debug("A user try to login.");
-		// connect to database, if find use return User, else return null
-		User user = new User();
-		user.setUserId(123);
-		// user.setAccountType("CUSTOMER");
-		user.setAccountType("EMPLOYEE");
-		return user;
+		User user = this.userd.findUserByName(username);
+		if (user.getPassword().equals(password))
+			return user;
+		return null;
 	}
 
 	@Override

@@ -35,6 +35,7 @@ import com.revature.repositories.MenuDAO;
 import com.revature.repositories.MenuMemoryDAO;
 import com.revature.repositories.TransactionDAO;
 import com.revature.repositories.TransactionDAOlmpl;
+import com.revature.repositories.UserDAOImpl;
 import com.revature.services.CustomerService;
 import com.revature.services.CustomerServiceImplementation;
 import com.revature.services.EmployeeService;
@@ -82,7 +83,10 @@ public class BankLauncher {
 			System.out.print(mainMenu.display());
 			String mainOption = mainMenu.getUserOption();
 
-			UserService userService = new UserServiceImplementation();
+			// userService
+			UserDAOImpl userd = new UserDAOImpl();
+			UserService userService = new UserServiceImplementation(userd);
+
 			AccountDAO accountDAO = new AccountDAOImpl();
 			TransactionDAO transactionDAO = new TransactionDAOlmpl();
 
