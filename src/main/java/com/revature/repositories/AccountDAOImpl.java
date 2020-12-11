@@ -68,14 +68,40 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public List<Account> getAccountsByUserId(int userId) {
-		// TODO Auto-generated method stub
-		List<Account> accounts = new ArrayList<Account>();
 
-		// public Account(int accountId, double balance, int userId, boolean isActive) {
-		accounts.add(new Account(10000, 20.2, 33));
-		accounts.add(new Account(10040, 1120.2, 33));
-		accounts.add(new Account(10020, 5520.2, 33));
-		accounts.add(new Account(12000, 520.2, 33));
+		List<Account> accounts = new ArrayList<Account>();
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+			String sql = "SELECT * FROM account_table WHERE user_Id = '" + userId + "'  AND status='ACTIVE';";
+			stmt = conn.prepareStatement(sql);
+			ResultSet res = stmt.executeQuery();
+
+			while (res.next()) {
+				Account account = new Account();
+				account.setAccountId(res.getInt("account_Id"));
+				account.setUserId(res.getInt("user_Id"));
+				account.setBalance(res.getDouble("balance"));
+				account.setStatus(res.getString("status"));
+				accounts.add(account);
+			}
+			pendingNumber = accounts.size();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
 
 		return accounts;
 	}

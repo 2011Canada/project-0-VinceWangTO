@@ -29,7 +29,6 @@ import com.revature.menus.WithdrawalMenu;
 import com.revature.models.Account;
 import com.revature.models.Transaction;
 import com.revature.models.User;
-import com.revature.repositories.AccountDAO;
 import com.revature.repositories.AccountDAOImpl;
 import com.revature.repositories.MenuDAO;
 import com.revature.repositories.MenuMemoryDAO;
@@ -59,8 +58,8 @@ public class BankLauncher {
 		}
 	}
 
-	public static Account getAccount(User loggedInUser, AccountDAO accountDAO) {
-		ViewAccountMenu viewAccountMenu = new ViewAccountMenu(loggedInUser, accountDAO);
+	public static Account getAccount(User loggedInUser, CustomerService customerService) {
+		ViewAccountMenu viewAccountMenu = new ViewAccountMenu(loggedInUser, customerService);
 		System.out.println(viewAccountMenu.display());
 		return viewAccountMenu.getUserOption();
 	}
@@ -123,19 +122,19 @@ public class BankLauncher {
 
 										case "view balance":
 											while (true) {
-												Account accountOption = getAccount(loggedInUser, accountDAO);
+												Account accountOption = getAccount(loggedInUser, customerService);
+
 												if (accountOption != null) {
 													System.out.println("You account #: " + accountOption.getAccountId()
 															+ " balance is : " + accountOption.getBalance());
 													goBack("\nPress ENTER key to go back to customer page");
-													break CustomerPage;
 												}
-
+												break CustomerPage;
 											}
 
 										case "withdrawal":
 											while (true) {
-												Account accountOption = getAccount(loggedInUser, accountDAO);
+												Account accountOption = getAccount(loggedInUser, customerService);
 												if (accountOption != null) {
 													WithdrawalPage: {
 														while (true) {
@@ -155,7 +154,7 @@ public class BankLauncher {
 											}
 										case "deposite":
 											while (true) {
-												Account accountOption = getAccount(loggedInUser, accountDAO);
+												Account accountOption = getAccount(loggedInUser, customerService);
 												if (accountOption != null) {
 													while (true) {
 
@@ -171,7 +170,7 @@ public class BankLauncher {
 											}
 										case "transfer money":
 											while (true) {
-												Account accountOption = getAccount(loggedInUser, accountDAO);
+												Account accountOption = getAccount(loggedInUser, customerService);
 												if (accountOption != null) {
 													TransferPage: {
 														while (true) {
@@ -256,7 +255,7 @@ public class BankLauncher {
 										case "view customer accounts":
 											while (true) {
 												EmployeeViewCustomerAccountMenu employeeViewCustomerAccountMenu = new EmployeeViewCustomerAccountMenu(
-														accountDAO);
+														employeeService);
 												System.out.print(employeeViewCustomerAccountMenu.display());
 												Account accountOption = employeeViewCustomerAccountMenu.getUserOption();
 
@@ -264,8 +263,9 @@ public class BankLauncher {
 													System.out.println("Account #: " + accountOption.getAccountId()
 															+ " balance is : " + accountOption.getBalance());
 													goBack("\nPress ENTER key to go back to Employee page");
-													break EmployeePage;
+
 												}
+												break EmployeePage;
 											}
 										case "view all transactions":
 											break;

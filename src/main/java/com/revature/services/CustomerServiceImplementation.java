@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import com.revature.models.Account;
 import com.revature.models.Transaction;
@@ -27,9 +28,8 @@ public class CustomerServiceImplementation implements CustomerService {
 	}
 
 	@Override
-	public Account viewBalance(int accountId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Account> viewBalance(int accountId) {
+		return accountd.getAccountsByUserId(accountId);
 	}
 
 	@Override

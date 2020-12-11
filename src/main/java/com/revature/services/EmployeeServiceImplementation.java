@@ -23,8 +23,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
 	@Override
 	public List<Account> viewCustomerAccount(int customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.accountDAO.getAccountsByUserId(customerId);
 	}
 
 	@Override
