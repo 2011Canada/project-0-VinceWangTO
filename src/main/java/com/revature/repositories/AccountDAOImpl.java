@@ -144,12 +144,43 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public boolean updateAccount(Account account) {
-		return false;
+
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE account_table SET balance=?,status=? WHERE account_Id=? ;";
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, account.getBalance());
+			stmt.setString(2, account.getStatus());
+			stmt.setInt(3, account.getAccountId());
+
+			if (stmt.executeUpdate() != 0) {
+
+				return true;
+			} else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
 	}
 
 	@Override
 	public boolean deleteAccount(Account account) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
