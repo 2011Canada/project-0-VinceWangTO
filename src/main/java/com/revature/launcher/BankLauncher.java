@@ -201,6 +201,12 @@ public class BankLauncher {
 														boolean result = customerService.acceptMoney(transactionOption);
 														if (result) {
 															System.out.println("Transaction Successful!");
+
+															String message = "Customer #" + loggedInUser.getUserId()
+																	+ " accept $" + transactionOption.getAmount()
+																	+ " desposit to account #"
+																	+ transactionOption.getToAccount() + ".";
+															BankLauncher.logger.info(message);
 														} else {
 															System.out.println("Transaction failed!");
 															break AcceptMoneyPage;
@@ -261,6 +267,7 @@ public class BankLauncher {
 												break EmployeePage;
 											}
 										case "view all transactions":
+											employeeService.viewTransactions();
 											break;
 										case "go back":
 											break HomePage;

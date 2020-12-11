@@ -1,9 +1,11 @@
 package com.revature.services;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Scanner;
 
 import com.revature.models.Account;
-import com.revature.models.Transaction;
 import com.revature.repositories.AccountDAO;
 
 public class EmployeeServiceImplementation implements EmployeeService {
@@ -27,9 +29,17 @@ public class EmployeeServiceImplementation implements EmployeeService {
 	}
 
 	@Override
-	public List<Transaction> viewTransactions() {
-		// TODO Auto-generated method stub
-		return null;
+	public void viewTransactions() {
+
+		try (Scanner fileIn = new Scanner(new File("logs/trace.log"))) {
+			while (fileIn.hasNextLine()) {
+				System.out.println(fileIn.nextLine());
+			}
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
 	}
 
 	@Override
