@@ -1,11 +1,18 @@
 package com.revature.repositories;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Transaction;
+import com.revature.util.ConnectionFactory;
 
 public class TransactionDAOlmpl implements TransactionDAO {
+
+	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
+	PreparedStatement stmt = null;
 
 	static List<Transaction> transactions = new ArrayList<Transaction>();
 	static boolean loading = false;
@@ -48,8 +55,38 @@ public class TransactionDAOlmpl implements TransactionDAO {
 
 	@Override
 	public boolean addTransaction(Transaction transaction) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "INSERT INTO transaction_table (user_id,  account_Id, transfered, amount) VALUES (?, ?, ?,?);";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, transaction.getFromUserId());
+			stmt.setInt(2, transaction.getToAccount());
+			stmt.setBoolean(3, transaction.getTransfered());
+			stmt.setDouble(4, transaction.getAmount());
+
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
 	}
 
 	@Override
