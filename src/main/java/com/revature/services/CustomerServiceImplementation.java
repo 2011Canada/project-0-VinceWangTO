@@ -103,7 +103,17 @@ public class CustomerServiceImplementation implements CustomerService {
 	@Override
 	public boolean acceptMoney(Transaction pending) {
 		// TODO Auto-generated method stub
-		return true;
+
+		pending.setTransfered(true);
+
+		return this.transd.updateTransaction(pending)
+				&& this.accountd.acceptMoney(pending.getToAccount(), pending.getAmount());
+
+	}
+
+	@Override
+	public List<Transaction> getPendingTransaction(int userId) {
+		return this.transd.getPendingTransactionsByUserId(userId);
 	}
 
 }

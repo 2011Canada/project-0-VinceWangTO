@@ -11,6 +11,8 @@ public interface CustomerService {
 
 	public List<Account> viewBalance(int accountId);
 
+	public List<Transaction> getPendingTransaction(int userId);
+
 	public boolean withdrawal(Account account, double amount);
 
 	public boolean deposit(Account account, double amount);

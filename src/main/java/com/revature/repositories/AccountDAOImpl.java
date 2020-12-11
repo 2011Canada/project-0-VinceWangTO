@@ -230,8 +230,6 @@ public class AccountDAOImpl implements AccountDAO {
 			String sql = "SELECT account_table.account_id, account_table.user_id as user_id , account_table.balance as balance, account_table.status as status FROM account_table inner join user_table on account_table.user_id = user_table.user_id"
 					+ "  where user_table.user_name='" + username + "' AND status = 'ACTIVE';";
 
-			// String sql = "SELECT * FROM account_table WHERE user_Id = '" + userId + "'
-			// AND status='ACTIVE';";
 			stmt = conn.prepareStatement(sql);
 			ResultSet res = stmt.executeQuery();
 
@@ -262,6 +260,42 @@ public class AccountDAOImpl implements AccountDAO {
 		}
 
 		return accounts;
+	}
+
+	@Override
+	public boolean acceptMoney(int accountId, double amount) {
+		Connection conn = cf.getConnection();
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE account_table SET balance=(balance+?) WHERE account_Id=? ;";
+
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, amount);
+			stmt.setInt(2, accountId);
+
+			if (stmt.executeUpdate() != 0) {
+				pendingNumber--;
+				return true;
+			} else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
+		}
 	}
 
 }
