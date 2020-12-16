@@ -39,9 +39,11 @@ public class ManageAccountMenu extends JDBCMenu<Account> {
 			boolean success = employeeService.manageNewAccount(account, status);
 			if (success) {
 
-				String message = "Customer #" + account.getUserId() + " creates a new account #"
-						+ account.getAccountId() + ", with starting balance: $" + account.getBalance() + ".";
-				MyApp.logger.info(message);
+				if (status == "ACTIVE") {
+					String message = "Customer #" + account.getUserId() + " creates a new account #"
+							+ account.getAccountId() + ", with starting balance: $" + account.getBalance() + ".";
+					MyApp.logger.info(message);
+				}
 
 				return "Account get " + status + "! ";
 			}
