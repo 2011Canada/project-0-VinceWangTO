@@ -90,7 +90,7 @@ public class MyApp {
 						String userString = loginMenu.display();
 						if (userString != "") {
 							User loggedInUser = mapper.readValue(userString, User.class);
-
+							// System.out.println(loggedInUser.getUserId());
 							while (true) {
 								if (loggedInUser.getAccountType().equals("CUSTOMER")) {
 									Menu customerMenu = new CustomerMenu(mainMenuDAO);
@@ -204,7 +204,7 @@ public class MyApp {
 
 															String message = "Customer #" + loggedInUser.getUserId()
 																	+ " accept $" + transactionOption.getAmount()
-																	+ " desposit to account #"
+																	+ " deposit to account #"
 																	+ transactionOption.getToAccount() + ".";
 															MyApp.logger.info(message);
 														} else {

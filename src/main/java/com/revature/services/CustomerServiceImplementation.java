@@ -93,7 +93,7 @@ public class CustomerServiceImplementation implements CustomerService {
 		from.setBalance(balance);
 
 		Transaction transaction = new Transaction();
-		transaction.setFromUserId(from.getAccountId());
+		transaction.setFromUserId(from.getUserId());
 		transaction.setToAccount(toAccountId);
 		transaction.setAmount(amount);
 		transaction.setTransfered(false);

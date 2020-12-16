@@ -93,11 +93,15 @@ public class TransactionDAOlmpl implements TransactionDAO {
 			conn.setAutoCommit(false);
 
 			String sql = "INSERT INTO transaction_table (user_id,  account_Id, transfered, amount) VALUES (?, ?, ?,?);";
+
+			// System.out.println(transaction.getFromUserId());
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, transaction.getFromUserId());
 			stmt.setInt(2, transaction.getToAccount());
 			stmt.setBoolean(3, transaction.getTransfered());
 			stmt.setDouble(4, transaction.getAmount());
+
+			// System.out.println(sql);
 
 			if (stmt.executeUpdate() != 0)
 				return true;
